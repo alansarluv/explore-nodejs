@@ -6,13 +6,13 @@ const shopController = require('../controllers/shop');
 
 const router = express.Router();
 
-router.get('/', shopController.getIndex);
+// router.get('/', shopController.getIndex);
 
-router.get('/products', shopController.getProducts);
+// router.get('/products', shopController.getProducts);
 
 // below is dynamic routes, please put it on the very bottom of parent (/product/..) path
 // because dynamic routes will be fired first and other route with the same parent path will not reached
-router.get('/products/:productId', shopController.getProduct);
+// router.get('/products/:productId', shopController.getProduct);
 
 // router.get('/cart', shopController.getCart);
 
