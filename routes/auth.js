@@ -1,6 +1,7 @@
 const express = require('express');
 const { check, body } = require('express-validator/check');
-const authController = require('../controllers/auth')
+const authController = require('../controllers/auth');
+const User = require('../models/user');
 const router = express.Router();
 
 router.get('/login', authController.getLogin)
@@ -13,12 +14,18 @@ router.post(
       .isEmail()
       .withMessage('Please enter a valid email')
       .custom((value, {req}) => {
-        if (value === 'dummy@dummy.dum') {
-          throw new Error('This dummy is only for test custom validation.')
-        } else {
-          return true;
-        }
-      }),
+        // if (value === 'dummy@dummy.dum') {
+        //   throw new Error('This dummy is only for test custom validation.')
+        // }
+        // return true;
+        return User.findOne({email: value}).then(userDoc => {
+          if (userDoc) {
+            return Promise.reject(
+              'E-mail already exist, please pick a different one.'
+            );
+          }        
+        });
+    }),
     body(
       'password',
       'Please enter a password with only numbers and text at least 5 characters.'
